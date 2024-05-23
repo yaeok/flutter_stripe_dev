@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "868547398348",
+    "project_id": "flutter-stripe-dev",
+    "storage_bucket": "flutter-stripe-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868547398348:android:21f2d5cab28925e5e41069",
+        "android_client_info": {
+          "package_name": "com.example.flutter_stripe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZsYH4a295yosM2eONsTC7musiO35JxAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868547398348:android:ab9e81028d306293e41069",
+        "android_client_info": {
+          "package_name": "com.example.flutter_stripe_dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZsYH4a295yosM2eONsTC7musiO35JxAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
