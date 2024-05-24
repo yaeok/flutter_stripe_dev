@@ -53,3 +53,17 @@ flutter pub add flutter_form_builder
 ```
 flutter pub add form_builder_validators
 ```
+
+#　画像登録系
+
+## flutter_image_compress
+
+```
+flutter pub add flutter_image_compress
+```
+
+## image_picker
+
+```
+flutter pub add image_picker
+```

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_stripe_dev/domain/entity/user/user.dart';
 import 'package:flutter_stripe_dev/domain/repository/user.dart';
 import 'package:flutter_stripe_dev/infrastructure/user.dart';
@@ -12,6 +13,7 @@ class AccountNotifier extends StateNotifier<User> {
             uid: '',
             username: '',
             email: '',
+            imageURL: '',
           ),
         );
 
@@ -22,6 +24,18 @@ class AccountNotifier extends StateNotifier<User> {
     final uid = auth.currentUser!.uid;
     final user = await userRepository.getUserByUid(uid: uid);
     state = user;
+  }
+
+  Future<String?> uploadImage({required XFile image}) async {
+    try {
+      final uid = auth.currentUser!.uid;
+      final imageUrl =
+          await userRepository.uploadImage(image: image, userId: uid);
+      state = state.copyWith(imageURL: imageUrl);
+      return imageUrl;
+    } catch (e) {
+      return null;
+    }
   }
 }
 

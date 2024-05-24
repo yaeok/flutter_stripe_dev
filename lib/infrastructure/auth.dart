@@ -63,9 +63,9 @@ class IAuthRepository extends AuthRepository {
 
   @override
   Future<bool> getCustomClaims() async {
-    final user = auth.currentUser;
     try {
-      final idTokenResult = await user!.getIdTokenResult();
+      final user = auth.currentUser;
+      final idTokenResult = await user!.getIdTokenResult(true);
       if (idTokenResult.claims!['premium'] as bool) {
         return true;
       } else {
@@ -110,6 +110,16 @@ class IAuthRepository extends AuthRepository {
     try {
       final User? user = auth.currentUser;
       await user?.sendEmailVerification();
+    } catch (e) {
+      throw 'system-error';
+    }
+  }
+
+  @override
+  Future<void> deleteAuthUser() async {
+    try {
+      final User? user = auth.currentUser;
+      await user?.delete();
     } catch (e) {
       throw 'system-error';
     }

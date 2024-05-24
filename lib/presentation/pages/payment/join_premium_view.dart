@@ -7,8 +7,10 @@ import 'package:flutter_stripe_dev/common/constants.dart';
 import 'package:flutter_stripe_dev/domain/entity/user/user.dart';
 import 'package:flutter_stripe_dev/infrastructure/auth.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/account_controller.dart';
+import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/payment_controller.dart';
 import 'package:flutter_stripe_dev/infrastructure/functions/auth.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class JoinPremiumView extends HookConsumerWidget {
@@ -242,12 +244,13 @@ class JoinPremiumView extends HookConsumerWidget {
       final PaymentIntent result =
           await Stripe.instance.retrievePaymentIntent(clientSecret);
       if (result.status.name.toString() == 'Succeeded') {
+        await ref.read(authNotifierProvider.notifier).updatePremiumPlan();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Payment succeeded'),
           ),
         );
-        await IAuthFunctionsRepository().updatePremiumPlan(uid: user.uid);
+        context.pop();
       }
     } on StripeException catch (e) {
       if (e.error.code.name == 'Canceled') {
