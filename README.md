@@ -53,23 +53,3 @@ flutter pub add flutter_form_builder
 ```
 flutter pub add form_builder_validators
 ```
-
-# 地図表示
-
-## flutter_map
-
-```
-flutter pub add flutter_map
-```
-
-## latlong2
-
-```
-flutter pub add latlong2
-```
-
-## url_launcher
-
-```
-flutter pub add url_launcher
-```

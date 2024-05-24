@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe_dev/common/router/router_path.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/presentation/widgets/round_rect_button.dart';
@@ -50,190 +51,200 @@ class SignInView extends HookConsumerWidget {
           top: true,
           bottom: false,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             decoration: const BoxDecoration(
               color: Colors.lightBlueAccent,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 16),
-                FormBuilder(
-                  key: emailFormKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: Text(
-                          'Email',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      FormBuilderTextField(
-                        name: 'email',
-                        cursorColor: Colors.amber,
-                        keyboardType: TextInputType.emailAddress,
-                        onChanged: (_) => updateEmailFormValidity(),
-                        decoration: const InputDecoration(
-                          hintText: 'メールアドレス',
-                          fillColor: Colors.white,
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.amber,
-                              width: 4,
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                              width: 4,
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                              width: 4,
-                            ),
-                          ),
-                        ),
-                        validator: FormBuilderValidators.compose(
-                          [
-                            FormBuilderValidators.required(
-                                errorText: '入力してください'),
-                            FormBuilderValidators.email(
-                                errorText: 'メールの形式が正しくありません'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                FormBuilder(
-                  key: passwordFormKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: Text(
-                          'Password',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      FormBuilderTextField(
-                        name: 'password',
-                        cursorColor: Colors.amber,
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: isObscure.value,
-                        onChanged: (_) => updatePasswordFormValidity(),
-                        decoration: InputDecoration(
-                          hintText: 'パスワード',
-                          fillColor: Colors.white,
-                          filled: true,
-                          suffixIcon: IconButton(
-                            icon: Icon(isObscure.value
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                            onPressed: () {
-                              isObscure.value = !isObscure.value;
-                            },
-                            color: Colors.green,
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.amber,
-                              width: 4,
-                            ),
-                          ),
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                              width: 4,
-                            ),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                              width: 4,
-                            ),
-                          ),
-                        ),
-                        validator: FormBuilderValidators.compose(
-                          [
-                            FormBuilderValidators.required(
-                              errorText: '入力してください',
-                            ),
-                            FormBuilderValidators.minLength(
-                              8,
-                              errorText: '8文字以上で入力してください',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                RoundRectButton(
-                  label: 'ログイン',
-                  onPressed: () async {
-                    try {
-                      await ref
-                          .read(authNotifierProvider.notifier)
-                          .signInWithEmail(
-                              email: emailFormKey
-                                  .currentState!.fields['email']!.value,
-                              password: passwordFormKey
-                                  .currentState!.fields['password']!.value)
-                          .then(
-                            (_) => context.go(RouterPath.homeRoute),
-                          );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            e.toString(),
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  isDisabled: !isFormValid,
-                ),
-                const SizedBox(height: 8),
-                TextButton(
-                  onPressed: () {
-                    context.go(RouterPath.signUpRoute);
-                  },
-                  child: const Text(
-                    'まだアカウントをお持ちでない方はこちら',
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 40.h),
+                  const Text(
+                    'ログイン',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 20.h),
+                  FormBuilder(
+                    key: emailFormKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Email',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        FormBuilderTextField(
+                          name: 'email',
+                          cursorColor: Colors.amber,
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: (_) => updateEmailFormValidity(),
+                          decoration: const InputDecoration(
+                            hintText: 'メールアドレス',
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.amber,
+                                width: 4,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 4,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 4,
+                              ),
+                            ),
+                          ),
+                          validator: FormBuilderValidators.compose(
+                            [
+                              FormBuilderValidators.required(
+                                  errorText: '入力してください'),
+                              FormBuilderValidators.email(
+                                  errorText: 'メールの形式が正しくありません'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FormBuilder(
+                    key: passwordFormKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Password',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        FormBuilderTextField(
+                          name: 'password',
+                          cursorColor: Colors.amber,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: isObscure.value,
+                          onChanged: (_) => updatePasswordFormValidity(),
+                          decoration: InputDecoration(
+                            hintText: 'パスワード',
+                            fillColor: Colors.white,
+                            filled: true,
+                            suffixIcon: IconButton(
+                              icon: Icon(isObscure.value
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                isObscure.value = !isObscure.value;
+                              },
+                              color: Colors.green,
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.amber,
+                                width: 4,
+                              ),
+                            ),
+                            errorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 4,
+                              ),
+                            ),
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.red,
+                                width: 4,
+                              ),
+                            ),
+                          ),
+                          validator: FormBuilderValidators.compose(
+                            [
+                              FormBuilderValidators.required(
+                                errorText: '入力してください',
+                              ),
+                              FormBuilderValidators.minLength(
+                                8,
+                                errorText: '8文字以上で入力してください',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  RoundRectButton(
+                    label: 'ログイン',
+                    onPressed: () async {
+                      try {
+                        await ref
+                            .read(authNotifierProvider.notifier)
+                            .signInWithEmail(
+                                email: emailFormKey
+                                    .currentState!.fields['email']!.value,
+                                password: passwordFormKey
+                                    .currentState!.fields['password']!.value)
+                            .then(
+                              (_) => context.go(RouterPath.homeRoute),
+                            );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              e.toString(),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    isDisabled: !isFormValid,
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () {
+                      context.go(RouterPath.signUpRoute);
+                    },
+                    child: const Text(
+                      'まだアカウントをお持ちでない方はこちら',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

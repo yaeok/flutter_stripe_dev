@@ -13,5 +13,7 @@ abstract class AuthRepository {
 
   Future<User?> getLoggedInUser();
 
+  Future<User?> getLoggedInUserWithEmailVerification();
+
   Future<void> sendEmailVerification();
 }

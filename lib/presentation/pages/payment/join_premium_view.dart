@@ -39,7 +39,7 @@ class JoinPremiumView extends HookConsumerWidget {
       );
     }
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blueGrey.shade200,
       appBar: AppBar(),
       body: SafeArea(
         child: CustomScrollView(
