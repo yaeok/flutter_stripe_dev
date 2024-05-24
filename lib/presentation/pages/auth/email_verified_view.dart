@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -118,7 +120,18 @@ class EmailVerifiedView extends HookConsumerWidget {
                 const SizedBox(height: 8),
                 RoundRectButton(
                   label: 'ホームへ',
-                  onPressed: () {
+                  onPressed: () async {
+                    final user = await ref
+                        .read(authNotifierProvider.notifier)
+                        .getLoggedInUserWithEmailVerification();
+                    if (user == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('メール認証が完了していません'),
+                        ),
+                      );
+                      return;
+                    }
                     context.go(RouterPath.homeRoute);
                   },
                 ),

@@ -123,6 +123,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
     return null;
   }
+
+  Future<User?> getLoggedInUserWithEmailVerification() async {
+    final user = await authRepository.getLoggedInUserWithEmailVerification();
+    final isPremium = await authRepository.getCustomClaims();
+    if (user != null) {
+      state = state.copyWith(
+        uid: user.uid,
+        email: user.email!,
+        isAuthenticating: true,
+        isPremium: isPremium,
+      );
+      return user;
+    }
+    return null;
+  }
 }
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(

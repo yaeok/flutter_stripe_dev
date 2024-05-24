@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RoundRectButton extends StatelessWidget {
-  const RoundRectButton({
+class OutlineRoundRectButton extends StatelessWidget {
+  const OutlineRoundRectButton({
     Key? key,
     required this.label,
     this.onPressed,
@@ -16,10 +16,14 @@ class RoundRectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
       height: 40.h,
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: isDisabled ? Colors.grey : Colors.green,
+        border: Border.all(
+          color: isDisabled ? Colors.grey : Colors.green,
+          width: 1,
+        ),
+        color: isDisabled ? Colors.grey : Colors.white,
         borderRadius: BorderRadius.circular(25),
       ),
       child: TextButton(
@@ -27,8 +31,7 @@ class RoundRectButton extends StatelessWidget {
         child: Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
+            color: Colors.green,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -92,6 +92,20 @@ class IAuthRepository extends AuthRepository {
   }
 
   @override
+  Future<User?> getLoggedInUserWithEmailVerification() async {
+    try {
+      await auth.currentUser?.reload();
+      final User? authUser = auth.currentUser;
+      if (authUser == null || authUser.emailVerified == false) {
+        return null;
+      }
+      return authUser;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
   Future<void> sendEmailVerification() async {
     try {
       final User? user = auth.currentUser;

@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_stripe_dev/common/router/go_router.dart';
+import 'package:flutter_stripe_dev/theme/app_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<void> main() async {
@@ -23,9 +25,18 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: ref.watch(goRouterProvider),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp.router(
+          title: 'flutter_stripe_dev',
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme(),
+          routerConfig: ref.watch(goRouterProvider),
+        );
+      },
     );
   }
 }
