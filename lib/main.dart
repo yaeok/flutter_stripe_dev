@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_stripe_dev/common/router/go_router.dart';
+import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/theme/app_theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -25,6 +28,14 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(() {
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        await ref
+            .read(authNotifierProvider.notifier)
+            .getLoggedInUserWithEmailVerification();
+      });
+      return null;
+    }, const []);
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,

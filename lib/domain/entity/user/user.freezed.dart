@@ -23,6 +23,7 @@ mixin _$User {
   String get uid => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  String get imageURL => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String uid, String username, String email});
+  $Res call({String uid, String username, String email, String imageURL});
 }
 
 /// @nodoc
@@ -53,6 +54,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? uid = null,
     Object? username = null,
     Object? email = null,
+    Object? imageURL = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -67,6 +69,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      imageURL: null == imageURL
+          ? _value.imageURL
+          : imageURL // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -78,7 +84,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uid, String username, String email});
+  $Res call({String uid, String username, String email, String imageURL});
 }
 
 /// @nodoc
@@ -94,6 +100,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? uid = null,
     Object? username = null,
     Object? email = null,
+    Object? imageURL = null,
   }) {
     return _then(_$UserImpl(
       uid: null == uid
@@ -108,6 +115,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      imageURL: null == imageURL
+          ? _value.imageURL
+          : imageURL // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -116,7 +127,10 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {required this.uid, required this.username, required this.email});
+      {required this.uid,
+      required this.username,
+      required this.email,
+      required this.imageURL});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -127,10 +141,12 @@ class _$UserImpl implements _User {
   final String username;
   @override
   final String email;
+  @override
+  final String imageURL;
 
   @override
   String toString() {
-    return 'User(uid: $uid, username: $username, email: $email)';
+    return 'User(uid: $uid, username: $username, email: $email, imageURL: $imageURL)';
   }
 
   @override
@@ -141,12 +157,14 @@ class _$UserImpl implements _User {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.username, username) ||
                 other.username == username) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.imageURL, imageURL) ||
+                other.imageURL == imageURL));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, username, email);
+  int get hashCode => Object.hash(runtimeType, uid, username, email, imageURL);
 
   @JsonKey(ignore: true)
   @override
@@ -166,7 +184,8 @@ abstract class _User implements User {
   const factory _User(
       {required final String uid,
       required final String username,
-      required final String email}) = _$UserImpl;
+      required final String email,
+      required final String imageURL}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -176,6 +195,8 @@ abstract class _User implements User {
   String get username;
   @override
   String get email;
+  @override
+  String get imageURL;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

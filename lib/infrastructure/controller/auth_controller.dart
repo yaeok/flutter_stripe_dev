@@ -27,17 +27,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final UserRepository userRepository;
   final auth = FirebaseAuth.instance;
 
-  Future<void> initilized() async {
-    if (auth.currentUser != null) {
-      state = AuthState(
-        uid: auth.currentUser!.uid,
-        email: auth.currentUser!.email!,
-        isAuthenticating: true,
-        isPremium: false,
-      );
-    }
-  }
-
   Future<void> signInWithEmail(
       {required String email, required String password}) async {
     try {
@@ -69,7 +58,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       String uid = await authRepository.signUpWithEmail(
           email: email, password: password);
       if (uid.isNotEmpty) {
-        await userRepository.regUser(uid: uid, email: email);
+        await userRepository.registerUser(uid: uid, email: email);
         state = AuthState(
           uid: uid,
           email: email,
@@ -137,6 +126,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
       return user;
     }
     return null;
+  }
+
+  Future<void> updatePremiumPlan() async {
+    try {
+      final uid = auth.currentUser!.uid;
+      await authFunctionsRepository.updatePremiumPlan(uid: uid);
+      final isPremium = await authRepository.getCustomClaims();
+      state = state.copyWith(isPremium: isPremium);
+    } catch (e) {
+      throw 'system-error';
+    }
+  }
+
+  Future<void> deleteAuthUser() async {
+    try {
+      await authRepository.deleteAuthUser();
+      state = const AuthState(
+        uid: '',
+        email: '',
+        isAuthenticating: false,
+        isPremium: false,
+      );
+    } catch (e) {
+      throw 'system-error';
+    }
   }
 }
 
