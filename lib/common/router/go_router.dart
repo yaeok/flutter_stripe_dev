@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe_dev/common/router/router_path.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/presentation/pages/account/account_view.dart';
+import 'package:flutter_stripe_dev/presentation/pages/account/update/account_update_view.dart';
 import 'package:flutter_stripe_dev/presentation/pages/auth/email_verified_view.dart';
 import 'package:flutter_stripe_dev/presentation/pages/auth/sign_in_email_view.dart';
 import 'package:flutter_stripe_dev/presentation/pages/auth/sign_up_email_view.dart';
@@ -50,6 +51,13 @@ final goRouterProvider = Provider<GoRouter>(
                 return const AccountView();
               },
               routes: [
+                // アカウント更新画面
+                GoRoute(
+                  path: RouterPath.accountUpdate,
+                  builder: (context, state) {
+                    return const AccountUpdateView();
+                  },
+                ),
                 // プレミアム加入画面
                 GoRoute(
                   path: RouterPath.payment,

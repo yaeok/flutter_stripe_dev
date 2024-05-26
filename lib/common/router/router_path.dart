@@ -14,6 +14,9 @@ class RouterPath {
   static const String account = 'account';
   static const String accountRoute = '$homeRoute/$account';
 
+  static const String accountUpdate = 'account_update';
+  static const String accountUpdateRoute = '$accountRoute/$accountUpdate';
+
   static const String payment = 'payment';
   static const String paymentRouteFromHome = '$homeRoute/$payment';
   static const String paymentRouteFromAccount = '$accountRoute/$payment';

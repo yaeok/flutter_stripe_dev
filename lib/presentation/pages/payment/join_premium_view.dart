@@ -9,7 +9,6 @@ import 'package:flutter_stripe_dev/infrastructure/auth.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/account_controller.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/payment_controller.dart';
-import 'package:flutter_stripe_dev/infrastructure/functions/auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

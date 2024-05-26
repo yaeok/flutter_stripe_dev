@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe_dev/common/router/router_path.dart';
 import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/presentation/widgets/round_rect_button.dart';
+import 'package:flutter_stripe_dev/presentation/widgets/toast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -32,10 +33,9 @@ class HomeView extends HookConsumerWidget {
               label: 'プレミアム加入',
               onPressed: () {
                 if (user.isPremium) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('プレミアム加入済みです'),
-                    ),
+                  showToast(
+                    message: 'すでに加入しています',
+                    fontSize: 16,
                   );
                   return;
                 }
