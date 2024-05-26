@@ -15,8 +15,8 @@ class ConfirmDialog extends HookConsumerWidget {
   }) : super(key: key);
 
   final String title;
-  final void Function() onYes;
-  final void Function() onNo;
+  final VoidCallback onYes;
+  final VoidCallback onNo;
   final String? emphasizedWord;
   final bool isEmphasisEnabled;
 

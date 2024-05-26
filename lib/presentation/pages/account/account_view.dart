@@ -7,6 +7,7 @@ import 'package:flutter_stripe_dev/infrastructure/controller/account_controller.
 import 'package:flutter_stripe_dev/infrastructure/controller/auth_controller.dart';
 import 'package:flutter_stripe_dev/presentation/pages/account/widgets/confirm_dialog.dart';
 import 'package:flutter_stripe_dev/presentation/pages/account/widgets/container_bar.dart';
+import 'package:flutter_stripe_dev/presentation/widgets/toast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,6 +18,7 @@ class AccountView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(accountNotifierProvider);
+    final auth = ref.watch(authNotifierProvider);
     final isLoading = useState<bool>(true);
     final picker = ImagePicker();
     useEffect(() {
@@ -144,8 +146,23 @@ class AccountView extends HookConsumerWidget {
             Column(
               children: [
                 ContainerBar(
+                  label: 'プレミアムに加入する',
+                  onTap: () {
+                    if (auth.isPremium) {
+                      showToast(
+                        message: 'すでに加入しています',
+                        fontSize: 16,
+                      );
+                      return;
+                    }
+                    context.go(RouterPath.paymentRouteFromAccount);
+                  },
+                ),
+                ContainerBar(
                   label: 'アカウント情報更新',
-                  onTap: () {},
+                  onTap: () {
+                    context.go(RouterPath.accountUpdateRoute);
+                  },
                 ),
                 ContainerBar(
                   label: '開発者へお問い合わせ',

@@ -37,6 +37,21 @@ class AccountNotifier extends StateNotifier<User> {
       return null;
     }
   }
+
+  Future<void> updateProfile({required String? username, String? email}) async {
+    final user = User(
+      uid: state.uid,
+      username: username ?? state.username,
+      email: email ?? state.email,
+      imageURL: state.imageURL,
+    );
+    try {
+      await userRepository.updateProfile(user: user);
+      state = user;
+    } catch (e) {
+      throw 'system-error';
+    }
+  }
 }
 
 final accountNotifierProvider = StateNotifierProvider<AccountNotifier, User>(

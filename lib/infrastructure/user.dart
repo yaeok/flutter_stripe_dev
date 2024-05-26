@@ -35,7 +35,7 @@ class IUserRepository extends UserRepository {
   }
 
   @override
-  Future<void> updateUser({required User user}) async {
+  Future<void> updateProfile({required User user}) async {
     try {
       await userDB.doc(user.uid).update(user.toJson());
     } catch (e) {
